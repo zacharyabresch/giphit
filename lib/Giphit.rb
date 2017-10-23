@@ -11,19 +11,17 @@ class Giphit
   def initialize(api_key)
     @api_key = api_key
     @query_options = {
-      query: { api_key: @api_key }
+      query: { api_key: @api_key },
+      format: :json
     }
   end
 
+  ##
+  # Get a random GIF
+  # Returns OpenStruct of gif details
   def random
-    # Get a random GIF
     # TODO: Add tag and rating parameters
-    search_path = '/v1/gifs/random'
-    response = self.class.get(
-      search_path, {
-        query: { api_key: @key },
-        format: :json
-      })
+    response = get_response(api_path: '/v1/gifs/random')
 
     OpenStruct.new({
       page_url: response.parsed_response["data"]["url"],
@@ -31,24 +29,22 @@ class Giphit
     })
   end
 
+  ##
+  # Do a search with the passed query term
+  # Returns JSON results
   def search(q)
-    # Do a search with the term & return JSON
-    # TODO: DRY up this search & query path construction ... it's _gross_.
-    # TODO: Run some code quality tools once this gets close
-    search_path = '/v1/gifs/search'
-    response = self.class.get(
-      search_path, {
-        query: {
-          api_key: @key,
-          q: q,
-        },
-        format: :json
-      })
+    response = get_response(
+      api_path: '/v1/gifs/search',
+      query_object: { q: q }
+    )
     response.parsed_response["data"]
   end
 
   private
-    def build_search_path(api_path:, query_object:)
-      response = self.class.get(api_path)
+    def get_response(api_path:, query_object: {})
+      new_opts = {
+        query: @query_options[:query].merge(query_object)
+      }
+      self.class.get(api_path, @query_options.merge(new_opts))
     end
 end
