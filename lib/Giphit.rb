@@ -14,9 +14,10 @@ class Giphit
       query: { api_key: @api_key }
     }
   end
-
+  
+  ##
+  # Get a random GIF
   def random
-    # Get a random GIF
     # TODO: Add tag and rating parameters
     search_path = '/v1/gifs/random'
     response = self.class.get(
@@ -31,10 +32,10 @@ class Giphit
     })
   end
 
+  ##
+  # Do a search with the passed query term
   def search(q)
-    # Do a search with the term & return JSON
     # TODO: DRY up this search & query path construction ... it's _gross_.
-    # TODO: Run some code quality tools once this gets close
     search_path = '/v1/gifs/search'
     response = self.class.get(
       search_path, {
