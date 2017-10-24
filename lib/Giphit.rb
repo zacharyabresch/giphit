@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'httparty'
 require 'json'
+require 'uri'
 
 GIPHY_ENDPOINT = 'api.giphy.com'
 
@@ -35,7 +36,7 @@ class Giphit
   def search(q)
     response = get_response(
       api_path: '/v1/gifs/search',
-      query_object: { q: q }
+      query_object: { q: URI.escape(q) }
     )
     response.parsed_response["data"]
   end

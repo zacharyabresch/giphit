@@ -8,7 +8,7 @@ Yup ... it's _another_ Giphy client!! This project was mostly a skill-sharpening
 * [X] Add specs
   * [ ] Implement mocking for HTTP requests & JSON responses
 * [ ] Finish & publish documentation
-* [ ] Add URL encoding to search queries
+* [X] Add URL encoding to search queries
 * [ ] Implement optional query parameters where applicable
 * [ ] **Optional**: Implement CLI version?
 * [ ] **Optional**: Run some code quality tools once this gets close
