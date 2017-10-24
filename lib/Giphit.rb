@@ -1,10 +1,11 @@
-#!/usr/bin/env ruby
 require 'httparty'
 require 'json'
 require 'uri'
 
-GIPHY_ENDPOINT = 'api.giphy.com'
+GIPHY_ENDPOINT = 'api.giphy.com'.freeze
 
+##
+# A class for accessing the Giphy API
 class Giphit
   include HTTParty
   base_uri GIPHY_ENDPOINT
@@ -28,10 +29,10 @@ class Giphit
       query_object: { tag: tag, rating: rating }
     )
 
-    OpenStruct.new({
-      page_url: response.parsed_response["data"]["url"],
-      image_url: response.parsed_response["data"]["image_url"]
-    })
+    OpenStruct.new(
+      page_url: response.parsed_response['data']['url'],
+      image_url: response.parsed_response['data']['image_url']
+    )
   end
 
   ##
@@ -40,16 +41,17 @@ class Giphit
   def search(q)
     response = get_response(
       api_path: '/v1/gifs/search',
-      query_object: { q: URI.escape(q) }
+      query_object: { q: CGI.escape(q) }
     )
-    response.parsed_response["data"]
+    response.parsed_response['data']
   end
 
   private
-    def get_response(api_path:, query_object: {})
-      new_opts = {
-        query: @query_options[:query].merge(query_object)
-      }
-      self.class.get(api_path, @query_options.merge(new_opts))
-    end
+
+  def get_response(api_path:, query_object: {})
+    new_opts = {
+      query: @query_options[:query].merge(query_object)
+    }
+    self.class.get(api_path, @query_options.merge(new_opts))
+  end
 end

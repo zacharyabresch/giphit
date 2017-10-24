@@ -1,4 +1,4 @@
-require './lib/Giphit'
+require './lib/giphit'
 
 MY_KEY = 'EexgAijeAL0K67OMX2LWUtVSjLCsHAHB'
 
