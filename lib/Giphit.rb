@@ -19,10 +19,14 @@ class Giphit
 
   ##
   # Get a random GIF
+  # Accepts a string `tag` and a string `rating`
   # Returns OpenStruct of gif details
-  def random
+  def random(tag: nil, rating: nil)
     # TODO: Add tag and rating parameters
-    response = get_response(api_path: '/v1/gifs/random')
+    response = get_response(
+      api_path: '/v1/gifs/random',
+      query_object: { tag: tag, rating: rating }
+    )
 
     OpenStruct.new({
       page_url: response.parsed_response["data"]["url"],
